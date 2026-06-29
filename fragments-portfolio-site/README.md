@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🧩 Fragments — Portfolio Site
 
-## Available Scripts
+### An interactive, animated showcase for the **Fragments** cloud-native microservice
 
-In the project directory, you can run:
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-0055FF?logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![React Router](https://img.shields.io/badge/React_Router-7-CA4245?logo=reactrouter&logoColor=white)](https://reactrouter.com/)
+[![Create React App](https://img.shields.io/badge/CRA-5.0.1-09D3AC?logo=createreactapp&logoColor=white)](https://create-react-app.dev/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](#)
 
-### `npm start`
+<a href="https://github.com/djpatel63/fragments">
+  <img src="https://img.shields.io/badge/View_Source-djpatel63/fragments-181717?logo=github&logoColor=white&style=for-the-badge" alt="GitHub Repository"/>
+</a>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+</div>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## ✨ Overview
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+A single-page React application that presents the **Fragments** REST microservice — its architecture, API design, CI/CD pipeline, and AWS infrastructure — in a polished, animated portfolio format. Built with React 19 and Framer Motion for smooth, scroll-driven motion.
 
-### `npm run build`
+> 🔗 **Backend source code:** [github.com/djpatel63/fragments](https://github.com/djpatel63/fragments)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Layer            | Technology                          |
+| ---------------- | ----------------------------------- |
+| **Framework**    | React 19                            |
+| **Animation**    | Framer Motion 12                    |
+| **Routing**      | React Router 7                      |
+| **Icons**        | Lucide React                        |
+| **Tooling**      | Create React App (react-scripts 5)  |
+| **Testing**      | React Testing Library + Jest        |
+| **Performance**  | web-vitals                          |
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🛠️ Getting Started
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+# Install dependencies
+npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Start the dev server (http://localhost:3000)
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The page reloads automatically on changes, and lint errors show in the console.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📜 Available Scripts
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Command          | Description                                                        |
+| ---------------- | ------------------------------------------------------------------ |
+| `npm start`      | Runs the app in development mode at `http://localhost:3000`        |
+| `npm test`       | Launches the test runner in interactive watch mode                 |
+| `npm run build`  | Builds an optimized production bundle into the `build/` folder      |
+| `npm run eject`  | Ejects CRA configuration (**one-way operation — cannot be undone**) |
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📦 Production Build
 
-### Analyzing the Bundle Size
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+This bundles React in production mode and optimizes the build for best performance. Output is minified, filenames include content hashes, and the result is ready to deploy.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📚 Learn More
 
-### Advanced Configuration
+- [Create React App documentation](https://create-react-app.dev/docs/getting-started)
+- [React documentation](https://react.dev/)
+- [Framer Motion documentation](https://www.framer.com/motion/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+<div align="center">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Built by Dhruv Patel** · [⭐ Star the backend repo](https://github.com/djpatel63/fragments)
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+</div>
