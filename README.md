@@ -1,215 +1,90 @@
-# Fragments — Cloud-Native REST Microservice
+<div align="center">
 
-> A production-grade Node.js/Express microservice for storing, retrieving, and converting text and image fragments. Deployed to AWS ECS with full CI/CD automation.
+# 🧩 Fragments — Portfolio Site
 
-⚠️ **This is a portfolio repository.** Source code is in a private repo due to infrastructure credentials and API keys. This README documents the architecture, design decisions, and technical depth of the project.
+### An interactive, animated showcase for the **Fragments** cloud-native microservice
 
----
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-0055FF?logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![React Router](https://img.shields.io/badge/React_Router-7-CA4245?logo=reactrouter&logoColor=white)](https://reactrouter.com/)
+[![Create React App](https://img.shields.io/badge/CRA-5.0.1-09D3AC?logo=createreactapp&logoColor=white)](https://create-react-app.dev/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](#)
 
-## What It Does
+<a href="https://github.com/djpatel63/fragments">
+  <img src="https://img.shields.io/badge/View_Source-djpatel63/fragments-181717?logo=github&logoColor=white&style=for-the-badge" alt="GitHub Repository"/>
+</a>
 
-Fragments is a RESTful API that lets authenticated users store arbitrary text and image data ("fragments"), retrieve them, and convert between formats on the fly. Upload Markdown, get back HTML. Upload a PNG, get back a WebP.
-
----
-
-## Tech Stack
-
-| Layer                | Technology                                      |
-| -------------------- | ----------------------------------------------- |
-| **Runtime**          | Node.js 18 (Alpine Linux)                       |
-| **Framework**        | Express 5.1.0                                   |
-| **Auth (dev)**       | HTTP Basic Auth via http-auth + Passport        |
-| **Auth (prod)**      | AWS Cognito JWT via aws-jwt-verify              |
-| **Storage (dev)**    | In-memory Map                                   |
-| **Storage (prod)**   | AWS S3 (binary content) + DynamoDB (metadata)   |
-| **Image Processing** | Sharp                                           |
-| **Markdown**         | markdown-it                                     |
-| **Logging**          | Pino (structured JSON)                          |
-| **Security**         | Helmet, CORS, Compression                       |
-| **Testing**          | Jest + Supertest (unit), Hurl (integration)     |
-| **CI/CD**            | GitHub Actions → Docker Hub → AWS ECR → AWS ECS |
-| **Container**        | Docker (multi-stage build), Tini as PID 1       |
-| **Local AWS**        | LocalStack (S3), DynamoDB Local, MinIO          |
+</div>
 
 ---
 
-## API Endpoints
+## ✨ Overview
 
-All routes under `/v1/fragments` require authentication.
+A single-page React application that presents the **Fragments** REST microservice — its architecture, API design, CI/CD pipeline, and AWS infrastructure — in a polished, animated portfolio format. Built with React 19 and Framer Motion for smooth, scroll-driven motion.
 
-| Method   | Route                    | Description                                           |
-| -------- | ------------------------ | ----------------------------------------------------- |
-| `GET`    | `/`                      | Root health check (public)                            |
-| `GET`    | `/v1/fragments/health`   | Health endpoint (public)                              |
-| `GET`    | `/v1/fragments`          | List all fragment IDs (`?expand=1` for full metadata) |
-| `GET`    | `/v1/fragments/:id`      | Retrieve raw fragment data                            |
-| `GET`    | `/v1/fragments/:id/info` | Retrieve fragment metadata                            |
-| `GET`    | `/v1/fragments/:id.:ext` | Retrieve with format conversion                       |
-| `POST`   | `/v1/fragments`          | Create a new fragment (5 MB limit)                    |
-| `PUT`    | `/v1/fragments/:id`      | Update fragment data (MIME type is immutable)         |
-| `DELETE` | `/v1/fragments/:id`      | Delete a fragment                                     |
-
-### Format Conversions
-
-| Source Type        | Convertible To          |
-| ------------------ | ----------------------- |
-| `text/markdown`    | `.html`, `.txt`         |
-| `text/html`        | `.txt`                  |
-| `application/json` | `.txt`                  |
-| `image/png`        | `.jpg`, `.webp`, `.gif` |
-| `image/jpeg`       | `.png`, `.webp`, `.gif` |
-| `image/webp`       | `.png`, `.jpg`, `.gif`  |
-| `image/gif`        | `.png`, `.jpg`, `.webp` |
+> 🔗 **Backend source code:** [github.com/djpatel63/fragments](https://github.com/djpatel63/fragments)
 
 ---
 
-## Architecture
+## 🚀 Tech Stack
 
-### Request Flow
-
-Client → [Cognito / Basic Auth] → Express API → [S3 + DynamoDB] / [In-Memory Map]
-↓
-Sharp / markdown-it
-(format conversion)
-
-### Data Model
-
-Each fragment stores two things separately:
-
-- **Metadata** (DynamoDB in prod, Map in dev): id (UUID), ownerId, MIME type, size, created, updated
-- **Content** (S3 in prod, Map in dev): raw binary Buffer, keyed by ownerId/id
-
-The ownerId is a SHA-256 hash of the user's lowercase email.
-
-### Dual-Environment Design
-
-The codebase runs identically in development and production with zero code changes. Environment variables control which modules load at startup:
-
-- `AWS_COGNITO_POOL_ID` defined → Cognito JWT auth, otherwise → Basic Auth
-- `AWS_REGION` defined → S3 + DynamoDB, otherwise → In-Memory Map
-
-### Directory Structure
-
-fragments/
-├── src/
-│ ├── index.js
-│ ├── server.js
-│ ├── app.js
-│ ├── logger.js
-│ ├── response.js
-│ ├── auth/
-│ │ ├── index.js
-│ │ ├── basic-auth.js
-│ │ ├── cognito.js
-│ │ └── utils.js
-│ ├── utils/
-│ │ └── owner.js
-│ ├── model/
-│ │ ├── fragment.js
-│ │ └── data/
-│ │ ├── index.js
-│ │ ├── memory/
-│ │ └── aws/
-│ └── routes/
-│ ├── index.js
-│ ├── health.js
-│ └── api/
-│ ├── get.js
-│ ├── post.js
-│ └── put.js
-├── tests/
-│ ├── unit/
-│ └── integration/
-├── .github/workflows/
-│ ├── ci.yml
-│ └── cd.yml
-├── Dockerfile
-├── docker-compose.yml
-├── docker-compose.local.yml
-├── scripts/local-aws-setup.sh
-└── fragments-definition.json
+| Layer           | Technology                         |
+| --------------- | ---------------------------------- |
+| **Framework**   | React 19                           |
+| **Animation**   | Framer Motion 12                   |
+| **Routing**     | React Router 7                     |
+| **Icons**       | Lucide React                       |
+| **Tooling**     | Create React App (react-scripts 5) |
+| **Testing**     | React Testing Library + Jest       |
+| **Performance** | web-vitals                         |
 
 ---
 
-## Key Design Decisions
+## 🛠️ Getting Started
 
-### Type Immutability
+```bash
+# Install dependencies
+npm install
 
-Once a fragment is created with a MIME type, that type can never be changed via PUT. The update endpoint enforces this at the route level, preventing broken conversion chains and ensuring metadata consistency.
+# Start the dev server (http://localhost:3000)
+npm start
+```
 
-### Raw Body Parsing
-
-All POST/PUT bodies are parsed as raw Buffer regardless of Content-Type. The binary data is stored as-is, and the Content-Type header becomes the fragment's MIME type metadata.
-
-### Graceful Shutdown
-
-The server uses stoppable with a 10-second drain window. It handles SIGINT and SIGTERM, stops accepting new connections, waits for in-flight requests to complete, then exits. A 12-second force-kill timeout acts as a safety net.
-
-### Owner ID Hashing
-
-User identity is never stored in plain text. The owner ID is a SHA-256 hash of the lowercase email address.
-
-### 5 MB Upload Limit
-
-Enforced at the Express router level to keep the microservice focused on small content fragments.
+The page reloads automatically on changes, and lint errors show in the console.
 
 ---
 
-## CI/CD Pipeline
+## 📜 Available Scripts
 
-### Continuous Integration (every push)
-
-ESLint → Hadolint → Jest unit tests → Hurl integration tests → Docker Hub push
-
-### Continuous Deployment (on v\* tag)
-
-Build & push to AWS ECR → Update ECS task definition → Deploy to ECS
-
----
-
-## Testing
-
-- 16 unit test files covering the Fragment model, auth strategies, response helpers, and route handlers (Jest + Supertest)
-- 14 integration test scripts running real HTTP requests against the full Docker Compose stack (Hurl)
-- Tests run against both the in-memory backend and emulated AWS services
+| Command         | Description                                                         |
+| --------------- | ------------------------------------------------------------------- |
+| `npm start`     | Runs the app in development mode at `http://localhost:3000`         |
+| `npm test`      | Launches the test runner in interactive watch mode                  |
+| `npm run build` | Builds an optimized production bundle into the `build/` folder      |
+| `npm run eject` | Ejects CRA configuration (**one-way operation — cannot be undone**) |
 
 ---
 
-## Docker
+## 📦 Production Build
 
-Multi-stage build: build stage installs all dependencies, production stage copies only production node_modules and source, runs under tini as PID 1.
+```bash
+npm run build
+```
 
-Two Docker Compose configs for local development:
-
-- `docker-compose.yml` — App + DynamoDB Local + LocalStack
-- `docker-compose.local.yml` — App + MinIO
-
----
-
-## AWS Infrastructure
-
-| Service      | Purpose                                      |
-| ------------ | -------------------------------------------- |
-| **S3**       | Fragment binary content storage              |
-| **DynamoDB** | Fragment metadata (hash: ownerId, range: id) |
-| **Cognito**  | User authentication (JWT)                    |
-| **ECR**      | Docker image registry                        |
-| **ECS**      | Container orchestration (Fargate)            |
+This bundles React in production mode and optimizes the build for best performance. Output is minified, filenames include content hashes, and the result is ready to deploy.
 
 ---
 
-## Skills Demonstrated
+## 📚 Learn More
 
-- REST API design with Express
-- AWS service integration (S3, DynamoDB, Cognito, ECR, ECS)
-- Authentication and authorization (JWT, HTTP Basic)
-- Docker multi-stage builds and container orchestration
-- CI/CD pipeline design with GitHub Actions
-- Unit and integration testing strategies
-- Structured logging and error handling
-- Graceful server shutdown patterns
-- Environment-based configuration management
+- [Create React App documentation](https://create-react-app.dev/docs/getting-started)
+- [React documentation](https://react.dev/)
+- [Framer Motion documentation](https://www.framer.com/motion/)
 
 ---
 
-**Version:** 0.11.0
+<div align="center">
+
+**Built by Dhruv Patel** · [⭐ Star the backend repo](https://github.com/djpatel63/fragments)
+
+</div>
