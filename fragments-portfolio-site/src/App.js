@@ -252,7 +252,7 @@ function App(){
             {NAV.map(n=>(
               <button key={n} className={"nav-link"+(active===n?" active":"")} onClick={()=>go(n)}>{n}</button>
             ))}
-            <a href="https://github.com/dhruv-techdev/fragments-public" target="_blank" rel="noreferrer" className="nav-github"><GitBranch size={18}/></a>
+            <a href="https://github.com/djpatel63/fragments" target="_blank" rel="noreferrer" className="nav-github"><GitBranch size={18}/></a>
           </div>
           <button className="mobile-toggle" onClick={()=>setMenu(!menu)}>
             {menu?<X size={22}/>:<Menu size={22}/>}
@@ -588,7 +588,7 @@ function App(){
         <div className="section-inner contact-section">
           <Header title="Get in Touch" subtitle="Open to discussing the project, the engineering decisions, or collaboration"/>
           <div className="contact-grid">
-            <motion.a href="https://github.com/yourusername" target="_blank" rel="noreferrer" className="contact-big-card"
+            <motion.a href="https://github.com/djpatel63/fragments" target="_blank" rel="noreferrer" className="contact-big-card"
               initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:0}}>
               <div className="contact-card-icon" style={{background:"#111827",color:"#fff"}}><GitBranch size={24}/></div>
               <div>
